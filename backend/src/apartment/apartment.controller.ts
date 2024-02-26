@@ -1,14 +1,16 @@
 import { Controller, Get, Param, Query } from "@nestjs/common";
 import { ApartmentService } from "./apartment.service";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags("apartments")
 @Controller("apartments")
 export class ApartmentController {
   constructor(private readonly apartmentService: ApartmentService) {}
 
   @Get("/")
   getApartments(
-    @Query("page") page: number,
-    @Query("pageSize") pageSize: number
+    @Query("page") page?: number,
+    @Query("pageSize") pageSize?: number
   ) {
     return this.apartmentService.getApartments({ page, pageSize });
   }
