@@ -12,6 +12,35 @@ services:
       - "5432:5432"
     volumes:
       - nawy-db-data:/var/lib/postgresql/data
+    networks:
+      - nawy-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: npm run start:dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: nawy
+    volumes:
+      - server-node-modules:/app/node_modules
+      - ./backend:/app
+    networks:
+      - nawy-network
 
 volumes:
   nawy-db-data:
+  server-node-modules:
+
+networks:
+  nawy-network:
+    name: nawy-network
