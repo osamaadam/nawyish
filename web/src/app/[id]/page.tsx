@@ -1,4 +1,4 @@
-import { Apartment } from "@/types/apartment";
+import { fetchApartment } from "@/actions/fetchApartment";
 import Image from "next/image";
 import "./style.scss";
 
@@ -49,12 +49,4 @@ export default async function Page({ params }: Props) {
       </section>
     </main>
   );
-}
-
-async function fetchApartment(id: string): Promise<Apartment> {
-  const url = new URL(`/api/apartments/${id}`, "http://localhost:3000");
-
-  const res = await fetch(url);
-
-  return res.json();
 }
