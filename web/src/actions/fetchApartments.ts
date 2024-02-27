@@ -8,7 +8,10 @@ export async function fetchApartments({
   pageSize?: number;
 }): Promise<Apartment[]> {
   try {
-    const url = new URL("/api/apartments", "http://localhost:3000");
+    const url = new URL(
+      "/api/apartments",
+      process.env.NEXT_PUBLIC_API_BASE_URL
+    );
     url.searchParams.set("page", page.toString());
     url.searchParams.set("pageSize", pageSize.toString());
 
