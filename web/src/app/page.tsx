@@ -1,10 +1,16 @@
+import ApartmentCard from "@/components/apartment_card/apartment_card";
+import { Apartment } from "@/types/apartment";
+import "./style.scss";
+
 export default async function ApartmentsPage() {
   const apartments = await fetchApartments({ page: 1 });
 
   return (
-    <div>
-      <pre>{JSON.stringify(apartments, null, 2)}</pre>
-    </div>
+    <main className="main-container">
+      {apartments.map((apartment) => (
+        <ApartmentCard key={apartment.id} apartment={apartment} />
+      ))}
+    </main>
   );
 }
 
@@ -14,7 +20,7 @@ async function fetchApartments({
 }: {
   page: number;
   pageSize?: number;
-}) {
+}): Promise<Apartment[]> {
   const url = new URL("/api/apartments", "http://localhost:3000");
   url.searchParams.set("page", page.toString());
   url.searchParams.set("pageSize", pageSize.toString());
