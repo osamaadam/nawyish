@@ -30,5 +30,5 @@ export class Apartment {
   isFurnished: boolean;
 
   @Column({ default: false })
-  isArchived: boolean;
+  isArchived?: boolean;
 }

@@ -19,7 +19,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: npm run start
+    command: npm run start:dev
     restart: always
     ports:
       - 3000:3000

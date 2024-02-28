@@ -1,6 +1,7 @@
-import { Controller, Get, Param, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { ApartmentService } from "./apartment.service";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiTags } from "@nestjs/swagger";
+import { ApartmentDto } from "./apartment.dto";
 
 @ApiTags("apartments")
 @Controller("apartments")
@@ -18,5 +19,11 @@ export class ApartmentController {
   @Get("/:id")
   getApartment(@Param("id") id: number) {
     return this.apartmentService.getApartment(id);
+  }
+
+  @Post("/")
+  @ApiBody({ type: ApartmentDto })
+  createApartment(@Body() apartment: ApartmentDto) {
+    return this.apartmentService.createApartments([apartment]);
   }
 }
