@@ -4,8 +4,14 @@ import ApartmentCard from "./apartment_card";
 
 export default function ApartmentsList({
   apartments,
+  isRefreshing,
+  loadApartments,
+  refreshApartments,
 }: {
   apartments: Apartment[];
+  isRefreshing: boolean;
+  loadApartments: () => Promise<void>;
+  refreshApartments: () => Promise<void>;
 }) {
   return (
     <FlatList
@@ -13,6 +19,9 @@ export default function ApartmentsList({
       data={apartments}
       renderItem={({ item }) => <ApartmentCard apartment={item} />}
       keyExtractor={(item) => item.id.toString()}
+      onEndReached={loadApartments}
+      onRefresh={refreshApartments}
+      refreshing={isRefreshing}
     />
   );
 }

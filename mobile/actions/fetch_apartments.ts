@@ -1,13 +1,15 @@
 import { Apartment } from "../types/apartment";
 
 export async function fetchApartments({
+  baseUrl,
   page = 1,
   pageSize = 10,
 }: {
+  baseUrl: string | URL;
   page: number;
   pageSize?: number;
 }): Promise<Apartment[]> {
-  const url = new URL("/api/apartments", "http://192.168.1.103:3000");
+  const url = new URL("/api/apartments", baseUrl);
   url.searchParams.set("page", page.toString());
   url.searchParams.set("pageSize", pageSize.toString());
 
