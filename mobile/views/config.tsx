@@ -17,12 +17,14 @@ export default function ConfigView({
   const handleSubmit = useCallback(async () => {
     try {
       setIsLoading(true);
+      setError(null);
       const parsedUrl = new URL(baseUrl);
       const isValid = await ping(parsedUrl);
       if (!isValid) {
         setError(
           "Couldn't ping server, are you sure it's accessible from your device?"
         );
+        setIsLoading(false);
         return;
       }
       setError(null);
@@ -40,6 +42,13 @@ export default function ConfigView({
 
   return (
     <View style={style.container}>
+      <Text style={style.description}>
+        So you can't believe me that it works? To try it out, you have to run
+        the server on your local machine, and connect the mobile app to it.
+      </Text>
+      <Text style={style.description}>
+        Don't use localhost, because the mobile app runs on a different machine.
+      </Text>
       <Text style={style.description}>Enter the server URL</Text>
       <TextInput
         style={style.textInput}

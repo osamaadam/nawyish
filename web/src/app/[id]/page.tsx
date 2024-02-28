@@ -23,30 +23,54 @@ export default async function Page({ params }: Props) {
         </figure>
         <h1 className="apartment-page__title">{apartment.address}</h1>
         <p className="apartment-page__description">{apartment.description}</p>
-        <ul className="apartment-page__details">
-          <li>
-            <span className="apartment-page__details-title">Bathrooms</span>
-            <span className="apartment-page__details-description">
-              {apartment.numberOfBathrooms}
-            </span>
-          </li>
-          <li>
-            <span className="apartment-page__details-title">Bedrooms</span>
-            <span className="apartment-page__details-description">
-              {apartment.numberOfBedrooms}
-            </span>
-          </li>
-          <li>
-            <span className="apartment-page__details-title">Area</span>
-            <span className="apartment-page__details-description">
-              {apartment.squareFootage} m<sup>2</sup>
-            </span>
-          </li>
-        </ul>
+        <Table
+          rows={[
+            {
+              title: "Bathrooms",
+              description: apartment.numberOfBathrooms.toString(),
+            },
+            {
+              title: "Bedrooms",
+              description: apartment.numberOfBedrooms.toString(),
+            },
+            {
+              title: "Square footage",
+              description: apartment.squareFootage.toString(),
+            },
+            {
+              title: "Furnished",
+              description: apartment.isFurnished ? "Yes" : "No",
+            },
+            {
+              title: "Monthly rent",
+              description:
+                Number(apartment.monthlyRent).toLocaleString() + " EGP",
+            },
+          ]}
+        />
         <p className="apartment-page__price">
           {Number(apartment.listingPrice).toLocaleString()} EGP
         </p>
       </section>
     </main>
+  );
+}
+
+function Table({ rows }: { rows: { title: string; description: string }[] }) {
+  return (
+    <ul className="apartment-page__details">
+      {rows.map((row) => (
+        <Row title={row.title} description={row.description} key={row.title} />
+      ))}
+    </ul>
+  );
+}
+
+function Row({ title, description }: { title: string; description: string }) {
+  return (
+    <li>
+      <span className="apartment-page__details-title">{title}</span>
+      <span className="apartment-page__details-description">{description}</span>
+    </li>
   );
 }

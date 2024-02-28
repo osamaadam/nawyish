@@ -1,9 +1,20 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Apartment } from "../types/apartment";
 
-export default function ApartmentCard({ apartment }: { apartment: Apartment }) {
+export default function ApartmentCard({
+  apartment,
+  navigator,
+}: {
+  apartment: Apartment;
+  navigator: any;
+}) {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        navigator.navigate("Apartment", { apartment });
+      }}
+    >
       <Image
         style={styles.image}
         source={{
@@ -15,7 +26,7 @@ export default function ApartmentCard({ apartment }: { apartment: Apartment }) {
       <Text style={styles.price}>
         {Number(apartment.listingPrice).toLocaleString()} EGP
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 

@@ -15,42 +15,45 @@ export default function ApartmentsView({
   const [page, setPage] = useState(1);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  const loadMore = useCallback(() => {
+    setPage((prev) => prev + 1);
+  }, [setPage]);
+
   const loadApartments = useCallback(async () => {
     try {
-      const res = await fetchApartments({ page, baseUrl });
+      const res = await fetchApartments({
+        page,
+        baseUrl,
+      });
 
       setApartments((prev) => [...prev, ...res]);
-      setPage((prev) => prev + 1);
     } catch (error) {
       console.error(error);
       navigation.navigate("Config");
-    }
-  }, [page, setPage, setApartments]);
-
-  const refreshApartments = useCallback(async () => {
-    try {
-      setIsRefreshing(true);
-      setApartments([]);
-      setPage(1);
-      await loadApartments();
-    } catch (error) {
-      console.error(error);
     } finally {
       setIsRefreshing(false);
     }
-  }, []);
+  }, [page, baseUrl, setApartments, setIsRefreshing, navigation]);
+
+  const refreshApartments = useCallback(async () => {
+    setApartments([]);
+    setIsRefreshing(true);
+    setPage(1);
+  }, [setIsRefreshing, setApartments, setPage]);
 
   useEffect(() => {
-    refreshApartments();
-  }, []);
+    if (page <= 0) return;
+    loadApartments();
+  }, [page]);
 
   return (
     <View style={styles.container}>
       <ApartmentsList
         apartments={apartments}
         isRefreshing={isRefreshing}
-        loadApartments={loadApartments}
+        loadMore={loadMore}
         refreshApartments={refreshApartments}
+        navigator={navigation}
       />
     </View>
   );
