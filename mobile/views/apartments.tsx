@@ -21,10 +21,16 @@ export default function ApartmentsView({
 
   const loadApartments = useCallback(async () => {
     try {
+      setIsRefreshing(true);
       const res = await fetchApartments({
         page,
         baseUrl,
       });
+
+      if (page === 1) {
+        setApartments(res);
+        return;
+      }
 
       setApartments((prev) => [...prev, ...res]);
     } catch (error) {
@@ -37,9 +43,9 @@ export default function ApartmentsView({
 
   const refreshApartments = useCallback(async () => {
     setApartments([]);
-    setIsRefreshing(true);
     setPage(1);
-  }, [setIsRefreshing, setApartments, setPage]);
+    loadApartments();
+  }, [setApartments, setPage]);
 
   useEffect(() => {
     if (page <= 0) return;
