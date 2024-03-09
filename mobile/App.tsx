@@ -14,15 +14,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Apartments">
-        <Stack.Screen
-          name="Apartments"
-          options={{
-            title: "Nawyish",
-          }}
-        >
-          {(props) => <ApartmentsView {...props} baseUrl={baseUrl} />}
-        </Stack.Screen>
+      <Stack.Navigator initialRouteName="Config">
         <Stack.Screen
           name="Config"
           options={{
@@ -32,6 +24,14 @@ export default function App() {
           {(props) => (
             <ConfigView {...props} baseUrl={baseUrl} setBaseUrl={setBaseUrl} />
           )}
+        </Stack.Screen>
+        <Stack.Screen
+          name="Apartments"
+          options={{
+            title: "Nawyish",
+          }}
+        >
+          {(props) => <ApartmentsView {...props} baseUrl={baseUrl} />}
         </Stack.Screen>
         <Stack.Screen
           name="Apartment"
